@@ -1,0 +1,55 @@
+# Build a dočasné súbory
+bin/
+obj/
+out/
+[Aa]pp_Data/
+artifacts/
+
+# Užívateľské nastavenia (Visual Studio, Rider, VS Code)
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+.vscode/
+.idea/
+
+# NuGet
+*.nupkg
+*.snupkg
+*.nuspec
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Logy, databázové súbory, cache
+*.log
+*.ldf
+*.mdf
+*.db
+*.sqlite
+*.sqlite3
+
+# Publikovanie
+publish/
+*.Publish.xml
+*.pubxml
+*.publishproj
+
+# Test výsledky a coverage
+[Tt]est[Rr]esult*/
+*.coverage
+*.coveragexml
+*.trx
+
+# ReSharper a StyleCop
+_ReSharper*/
+*.[Rr]e[Ss]harper
+StyleCopReport.xml
+
+# Dočasné a záložné súbory
+*.tmp
+*.bak
+*.swp
+*.sln.iml
