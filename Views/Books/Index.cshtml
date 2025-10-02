@@ -1,0 +1,257 @@
+@{
+ViewData["Title"] = "Books";
+}
+
+<h2 class="mb-4">Books</h2>
+
+<div class="mb-3 text-end">
+    <button class="btn btn-success animate__animated animate__fadeIn" id="addBookBtn">
+        <i class="fas fa-plus me-1"></i> Add New Book
+    </button>
+</div>
+
+<div class="table-responsive animate__animated animate__fadeInUp">
+    <table class="table table-striped table-bordered align-middle" id="booksTable">
+        <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Category</th>
+            <th>Year</th>
+            <th>Available</th>
+            <th>New</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @* Dummy data rows with full Book schema *@
+        <tr data-id="1"
+            data-author-id="author1"
+            data-category-id="category1"
+            data-tags='["tag1","tag2"]'
+            data-ratings='["rating1","rating2"]'
+            data-order-items='["order1"]'
+            data-is-new="true"
+            data-description="A classic novel set in the 1920s.">
+            <td>The Great Gatsby</td>
+            <td>F. Scott Fitzgerald</td>
+            <td>Fiction</td>
+            <td>1925</td>
+            <td><span class="badge bg-success">Yes</span></td>
+            <td><span class="badge bg-info">Yes</span></td>
+            <td>A classic novel set in the 1920s.</td>
+            <td>
+                <button class="btn btn-primary btn-sm me-1 editBtn"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger btn-sm deleteBtn"><i class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+
+        <tr data-id="2"
+            data-author-id="author2"
+            data-category-id="category2"
+            data-tags='["tag3"]'
+            data-ratings='["rating3"]'
+            data-order-items='["order2","order3"]'
+            data-is-new="false"
+            data-description="Dystopian classic exploring totalitarianism.">
+            <td>1984</td>
+            <td>George Orwell</td>
+            <td>Dystopian</td>
+            <td>1949</td>
+            <td><span class="badge bg-danger">No</span></td>
+            <td><span class="badge bg-secondary">No</span></td>
+            <td>Dystopian classic exploring totalitarianism.</td>
+            <td>
+                <button class="btn btn-primary btn-sm me-1 editBtn"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger btn-sm deleteBtn"><i class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+
+        <tr data-id="3"
+            data-author-id="author3"
+            data-category-id="category3"
+            data-tags='["tag4","tag5"]'
+            data-ratings='["rating4"]'
+            data-order-items='[]'
+            data-is-new="true"
+            data-description="A must-read book for clean coding practices.">
+            <td>Clean Code</td>
+            <td>Robert C. Martin</td>
+            <td>Programming</td>
+            <td>2008</td>
+            <td><span class="badge bg-success">Yes</span></td>
+            <td><span class="badge bg-info">Yes</span></td>
+            <td>A must-read book for clean coding practices.</td>
+            <td>
+                <button class="btn btn-primary btn-sm me-1 editBtn"><i class="fas fa-edit"></i></button>
+                <button class="btn btn-danger btn-sm deleteBtn"><i class="fas fa-trash"></i></button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+@* Pagination *@
+<nav aria-label="Page navigation example" class="mt-3">
+    <ul class="pagination justify-content-center">
+        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+    </ul>
+</nav>
+
+<!-- Add Book Modal -->
+<div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered animate__animated animate__fadeInDown">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBookModalLabel">Add New Book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="addBookForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="Name" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Author</label>
+                        <select name="AuthorId" class="form-select">
+                            <option value="author1">F. Scott Fitzgerald</option>
+                            <option value="author2">George Orwell</option>
+                            <option value="author3">Robert C. Martin</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select name="CategoryId" class="form-select">
+                            <option value="category1">Fiction</option>
+                            <option value="category2">Dystopian</option>
+                            <option value="category3">Programming</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Year</label>
+                        <input type="number" name="Year" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="Description" class="form-control"></textarea>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input type="checkbox" name="IsAvailable" class="form-check-input" checked />
+                        <label class="form-check-label">Available</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="IsNew" class="form-check-input" />
+                        <label class="form-check-label">New</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Add Book</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Book Modal -->
+<div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered animate__animated animate__fadeInDown">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editBookModalLabel">Edit Book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="editBookForm">
+                <div class="modal-body">
+                    <input type="hidden" name="Id" />
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="Name" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Author</label>
+                        <select name="AuthorId" class="form-select">
+                            <option value="author1">F. Scott Fitzgerald</option>
+                            <option value="author2">George Orwell</option>
+                            <option value="author3">Robert C. Martin</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select name="CategoryId" class="form-select">
+                            <option value="category1">Fiction</option>
+                            <option value="category2">Dystopian</option>
+                            <option value="category3">Programming</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Year</label>
+                        <input type="number" name="Year" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea name="Description" class="form-control"></textarea>
+                    </div>
+                    <div class="form-check mb-2">
+                        <input type="checkbox" name="IsAvailable" class="form-check-input" />
+                        <label class="form-check-label">Available</label>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" name="IsNew" class="form-check-input" />
+                        <label class="form-check-label">New</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const addBookModal = new bootstrap.Modal(document.getElementById('addBookModal'));
+        const editBookModal = new bootstrap.Modal(document.getElementById('editBookModal'));
+
+        document.getElementById('addBookBtn').addEventListener('click', () => {
+            addBookModal.show();
+        });
+
+        document.querySelectorAll('.editBtn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const tr = e.target.closest('tr');
+                const form = document.getElementById('editBookForm');
+
+                form.Id.value = tr.dataset.id;
+                form.Name.value = tr.children[0].innerText;
+                form.AuthorId.value = tr.dataset.authorId;
+                form.CategoryId.value = tr.dataset.categoryId;
+                form.Year.value = tr.children[3].innerText;
+                form.IsAvailable.checked = tr.children[4].querySelector('.bg-success') !== null;
+                form.IsNew.checked = tr.dataset.isNew === "true";
+                form.Description.value = tr.dataset.description;
+
+                editBookModal.show();
+            });
+        });
+
+        document.querySelectorAll('.deleteBtn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                if (confirm('Are you sure you want to delete this book?')) {
+                    const tr = e.target.closest('tr');
+                    tr.remove();
+                }
+            });
+        });
+    });
+</script>
+}
